@@ -101,7 +101,7 @@ Green_mirror = [Green(2:-1:1,:); Green; Green(end:-1:end-(2-1), :)];
 Green_mirror = [Green_mirror(:, 2:-1:1), Green_mirror, Green_mirror(:, end:-1:end-(2-1))];
 
 Blue = zeros(lena_xi,lena_xj);
-% Blue_o = zeros(lena_xi,lena_xj);
+
 for i = 3 : 2 : lena_i - 3
 	for j = 4 : 2 : lena_j - 2 
         Blue(i+1-2,j-2) = ((lena(i+1,j-1) + lena(i+1,j+1))/2) + ((2*Green_mirror(i+1,j) - Green_mirror(i+1,j-1) - Green_mirror(i+1,j+1))/2); %B11
@@ -150,16 +150,13 @@ for i = 4 : 2 : lena_i - 2
  		Red(i-2,j+1-2) = ((lena(i-1,j+1) + lena(i+1,j+1))/2) + ((2*Green_mirror(i+1,j+1) - Green_mirror(i-1,j+1) - Green_mirror(i+1,j+1))/2); %R8
 	end
 end
+
 for i = 1 : 2 : 128
     for j = 2 : 2 : 128
         Red(i,j) = lena_x(i,j);
     end
 end
-% for i = 1 : 2 : 128
-%     for j = 1 : 2 : 128
-%         Red_o(i,j) = lena_x(i,j);
-%     end
-% end
+
 
 subplot(1,4,1),imshow(uint8(Red));
 subplot(1,4,2),imshow(uint8(Green));
