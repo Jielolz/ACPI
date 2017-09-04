@@ -16,18 +16,18 @@ lena_dat = reshape(lena_dat,[],128);
 lena_dat = lena_dat';
 [lena_xi,lena_xj] = size(lena_dat);
 
-Green_1 = textread('green.dat','%q');
-Green_1 = hex2dec(Green_1);
-Green_1 = reshape(Green_1,[],128);
-Green_1 = Green_1';
-Blue_1 = textread('blue.dat','%q');
-Blue_1 = hex2dec(Blue_1);
-Blue_1 = reshape(Blue_1,[],128);
-Blue_1 = Blue_1';
-Red_1 = textread('red.dat','%q');
-Red_1 = hex2dec(Red_1);
-Red_1 = reshape(Red_1,[],128);
-Red_1 = Red_1';
+Green_hw = textread('green.dat','%q');
+Green_hw = hex2dec(Green_hw);
+Green_hw = reshape(Green_hw,[],128);
+Green_hw = Green_hw';
+Blue_hw = textread('blue.dat','%q');
+Blue_hw = hex2dec(Blue_hw);
+Blue_hw = reshape(Blue_hw,[],128);
+Blue_hw = Blue_hw';
+Red_hw = textread('red.dat','%q');
+Red_hw = hex2dec(Red_hw);
+Red_hw = reshape(Red_hw,[],128);
+Red_hw = Red_hw';
 
 lena_x = zeros(lena_xi,lena_xj);
 
@@ -40,53 +40,53 @@ Blue = zeros(lena_xi,lena_xj);
 Red = zeros(lena_xi,lena_xj);
 
 for i = 1 : lena_xi 
-	for j = 1 : lena_xj 
-		lena_x(i,j) = lena_dat(i,j);
+    for j = 1 : lena_xj 
+	lena_x(i,j) = lena_dat(i,j);
         Green(i,j) = lena_dat(i,j);
         Blue(i,j) = lena_dat(i,j);
         Red(i,j) = lena_dat(i,j);
-	end
+    end
 end
 
 for i = 1 : 1 : lena_xi
     for j = 1 : 1 : lena_xj
-        Green_1(i,j) = Green_1(i,j) / 8;
+        Green_hw(i,j) = Green_hw(i,j) / 8;
     end
 end
 
 for i = 1 : 2 : lena_xi
     for j = 1 : 2 : lena_xj
-        Green_1(i,j) = lena_dat(i,j);
+        Green_hw(i,j) = lena_dat(i,j);
     end
 end
 
 for i = 2 : 2 : lena_xi
     for j = 2 : 2 : lena_xj
-        Green_1(i,j) = lena_dat(i,j);
+        Green_hw(i,j) = lena_dat(i,j);
     end
 end
 
 for i = 1 : 1 : lena_xi
     for j = 1 : 1 : lena_xj
-        Blue_1(i,j) = Blue_1(i,j) / 4;
+        Blue_hw(i,j) = Blue_hw(i,j) / 4;
     end
 end
 
 for i = 2 : 2 : lena_xi
     for j = 1 : 2 : lena_xj
-        Blue_1(i,j) = lena_dat(i,j);
+        Blue_hw(i,j) = lena_dat(i,j);
     end
 end
 
 for i = 1 : 1 : lena_xi
     for j = 1 : 1 : lena_xj
-        Red_1(i,j) = Red_1(i,j) / 4;
+        Red_hw(i,j) = Red_hw(i,j) / 4;
     end
 end
 
 for i = 1 : 2 : lena_xi
     for j = 2 : 2 : lena_xj
-        Red_1(i,j) = lena_dat(i,j);
+        Red_hw(i,j) = lena_dat(i,j);
     end
 end
 
@@ -188,21 +188,21 @@ end
 % ------------- Calculate PSNR -------------
 % ------------------------------------------
 
-MSE_R = sum(sum((Red_o - Red_1).^2)) / (lena_xi * lena_xj);
+MSE_R = sum(sum((Red_o - Red_hw).^2)) / (lena_xi * lena_xj);
 if  MSE_R == 0
     PSNR_R = 200;
 else
     PSNR_R = 10 * log10((255^2) / MSE_R );                                                        
 end
 
-MSE_G = sum(sum((Green_o - Green_1).^2)) / (lena_xi * lena_xj);
+MSE_G = sum(sum((Green_o - Green_hw).^2)) / (lena_xi * lena_xj);
 if  MSE_G == 0
     PSNR_G = 200;
 else
     PSNR_G = 10 * log10((255^2) / MSE_G );                                                        
 end
 
-MSE_B = sum(sum((Blue_o - Blue_1).^2)) / (lena_xi * lena_xj);
+MSE_B = sum(sum((Blue_o - Blue_hw).^2)) / (lena_xi * lena_xj);
 if  MSE_B == 0
     PSNR_B = 200;
 else
@@ -218,12 +218,12 @@ Image(:,:,2) =Green;
 Image(:,:,3) =Blue;
 subplot(2,4,4),imshow(uint8(Image));
 
-subplot(2,4,5),imshow(uint8(Red_1));
-subplot(2,4,6),imshow(uint8(Green_1));
-subplot(2,4,7),imshow(uint8(Blue_1));
-Image1(:,:,1) =Red_1;
-Image1(:,:,2) =Green_1;
-Image1(:,:,3) =Blue_1;
+subplot(2,4,5),imshow(uint8(Red_hw));
+subplot(2,4,6),imshow(uint8(Green_hw));
+subplot(2,4,7),imshow(uint8(Blue_hw));
+Image1(:,:,1) =Red_hw;
+Image1(:,:,2) =Green_hw;
+Image1(:,:,3) =Blue_hw;
 subplot(2,4,8),imshow(uint8(Image1));
 
 figure(2);
