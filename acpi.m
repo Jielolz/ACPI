@@ -1,6 +1,6 @@
 clear all, clc;
 % ----------------------------------------
-% --------- octave need load pkg ---------
+%           octave need load pkg
 % ----------------------------------------
 % pkg load image  
 
@@ -32,12 +32,39 @@ Red_hw = Red_hw';
 lena_x = zeros(lena_xi,lena_xj);
 
 % -----------------------------------------------
-% ------------- fill original R,G,B -------------
+%               fill original R,G,B 
 % -----------------------------------------------
 
 Green = zeros(lena_xi,lena_xj);
 Blue = zeros(lena_xi,lena_xj);
 Red = zeros(lena_xi,lena_xj);
+Green_1 = zeros(lena_xi,lena_xj);
+Blue_1 = zeros(lena_xi,lena_xj);
+Red_1 = zeros(lena_xi,lena_xj);
+
+for i = 1 : 2 : lena_xi
+    for j = 1 : 2 : lena_xj
+        Green_1(i,j) = lena_dat(i,j);
+    end
+end
+
+for i = 2 : 2 : lena_xi
+    for j = 2 : 2 : lena_xj
+        Green_1(i,j) = lena_dat(i,j);
+    end
+end
+
+for i = 1 : 2 : lena_xi
+    for j = 2 : 2 : lena_xj
+        Red_1(i,j) = lena_dat(i,j);
+    end
+end
+
+for i = 2 : 2 : lena_xi
+    for j = 1 : 2 : lena_xj
+        Blue_1(i,j) = lena_dat(i,j);
+    end
+end
 
 for i = 1 : lena_xi 
     for j = 1 : lena_xj 
@@ -91,7 +118,7 @@ for i = 1 : 2 : lena_xi
 end
 
 % ------------------------------------------------------------
-% --------------- Matrix mirror fill the edge ----------------
+%                 Matrix mirror fill the edge
 % ------------------------------------------------------------
 
 lena = [lena_x(2:-1:1,:); lena_x; lena_x(end:-1:end-(2-1), :)];
@@ -100,7 +127,7 @@ lena = [lena(:, 2:-1:1), lena, lena(:, end:-1:end-(2-1))];
 [lena_i,lena_j] = size(lena);
 
 % ------------------------------------------------------
-% ------------- Green interpolation by Red -------------
+%               Green interpolation by Red 
 % ------------------------------------------------------
 
 for i = 3 : 2 : lena_i-3
@@ -118,7 +145,7 @@ for i = 3 : 2 : lena_i-3
 end
 
 % -------------------------------------------------------
-% ------------- Green interpolation by Blue -------------
+%               Green interpolation by Blue 
 % -------------------------------------------------------
 
 for i = 4 : 2 : lena_i - 2 
@@ -136,14 +163,14 @@ for i = 4 : 2 : lena_i - 2
 end
 
 % ---------------------------------------------------------------------
-% --- Green matrix mirror fill the edge, for the blue, red required ---
+%     Green matrix mirror fill the edge, for the blue, red required    
 % ---------------------------------------------------------------------
 
 Green_mirror = [Green(2:-1:1,:); Green; Green(end:-1:end-(2-1), :)];
 Green_mirror = [Green_mirror(:, 2:-1:1), Green_mirror, Green_mirror(:, end:-1:end-(2-1))];
 
 % -------------------------------------------------------
-% ------------- Blue interpolation by Green -------------
+%               Blue interpolation by Green
 % -------------------------------------------------------
 
 for i = 3 : 2 : lena_i - 3
@@ -164,7 +191,7 @@ for i = 3 : 2 : lena_i - 3
 end
 
 % -------------------------------------------------------
-% ------------- Red interpolation by Green --------------
+%               Red interpolation by Green 
 % -------------------------------------------------------
 
 for i = 4 : 2 : lena_i - 2
@@ -185,29 +212,27 @@ for i = 4 : 2 : lena_i - 2
 end
 
 % ------------------------------------------
-% ------------- Calculate PSNR -------------
+%               Calculate PSNR
 % ------------------------------------------
 
-MSE_R = sum(sum((Red_o - Red_hw).^2)) / (lena_xi * lena_xj);
-if  MSE_R == 0
-    PSNR_R = 200;
-else
-    PSNR_R = 10 * log10((255^2) / MSE_R );                                                        
-end
+MSE_R_sw = sum(sum((Red_o - Red).^2)) / (lena_xi * lena_xj);
+PSNR_R_sw = 10 * log10((255^2) / MSE_R_sw );                                                        
 
-MSE_G = sum(sum((Green_o - Green_hw).^2)) / (lena_xi * lena_xj);
-if  MSE_G == 0
-    PSNR_G = 200;
-else
-    PSNR_G = 10 * log10((255^2) / MSE_G );                                                        
-end
+MSE_G_sw = sum(sum((Green_o - Green).^2)) / (lena_xi * lena_xj);
+PSNR_G_sw = 10 * log10((255^2) / MSE_G_sw );                                                        
 
-MSE_B = sum(sum((Blue_o - Blue_hw).^2)) / (lena_xi * lena_xj);
-if  MSE_B == 0
-    PSNR_B = 200;
-else
-    PSNR_B = 10 * log10((255^2) / MSE_B );                                                        
-end
+MSE_B_sw = sum(sum((Blue_o - Blue).^2)) / (lena_xi * lena_xj);
+PSNR_B_sw = 10 * log10((255^2) / MSE_B_sw );                                                        
+
+MSE_R_hw = sum(sum((Red_o - Red_hw).^2)) / (lena_xi * lena_xj);
+PSNR_R_hw = 10 * log10((255^2) / MSE_R_hw );                                                        
+
+MSE_G_hw = sum(sum((Green_o - Green_hw).^2)) / (lena_xi * lena_xj);
+PSNR_G_hw = 10 * log10((255^2) / MSE_G_hw );                                                        
+
+MSE_B_hw = sum(sum((Blue_o - Blue_hw).^2)) / (lena_xi * lena_xj);
+PSNR_B_hw = 10 * log10((255^2) / MSE_B_hw );                                                        
+
 
 figure(1);
 subplot(2,4,1),imshow(uint8(Red));
@@ -221,12 +246,15 @@ subplot(2,4,4),imshow(uint8(Image));
 subplot(2,4,5),imshow(uint8(Red_hw));
 subplot(2,4,6),imshow(uint8(Green_hw));
 subplot(2,4,7),imshow(uint8(Blue_hw));
-Image1(:,:,1) =Red_hw;
-Image1(:,:,2) =Green_hw;
-Image1(:,:,3) =Blue_hw;
-subplot(2,4,8),imshow(uint8(Image1));
+Image_hw(:,:,1) =Red_hw;
+Image_hw(:,:,2) =Green_hw;
+Image_hw(:,:,3) =Blue_hw;
+subplot(2,4,8),imshow(uint8(Image_hw));
 
 figure(2);
-subplot(1,3,1),imshow(uint8(lena_dat));
-subplot(1,3,2),imshow(uint8(Image1));
+bayer(:,:,1) = Red_1;
+bayer(:,:,2) = Green_1;
+bayer(:,:,3) = Blue_1;
+subplot(1,3,1),imshow(uint8(bayer));
+subplot(1,3,2),imshow(uint8(Image_hw));
 subplot(1,3,3),imshow(uint8(Image));
