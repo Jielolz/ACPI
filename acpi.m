@@ -45,13 +45,13 @@ lena = [lena(:, 2:-1:1), lena, lena(:, end:-1:end-(2-1))];
 for i = 3 : 2 : lena_i-3
     for j = 4 : 2 : lena_j-2 
         DH = abs(lena(i,j-1) - lena(i,j+1)) + abs((2*lena(i,j)) - lena(i,j-2) - lena(i,j+2));
-        DV = abs(lena(i-1,j) - lena(i+1,j)) + abs((2*lena(i,j)) - lena(i-1,j) - lena(i+2,j));
+        DV = abs(lena(i-1,j) - lena(i+1,j)) + abs((2*lena(i,j)) - lena(i-2,j) - lena(i+2,j));
         if DH < DV
             Green(i-2,j-2) = ((lena(i,j-1) + lena(i,j+1))/2) + (((2*lena(i,j)) - lena(i,j-2) - lena(i,j+2))/4);
         elseif DV < DH
             Green(i-2,j-2) = ((lena(i-1,j) + lena(i+1,j))/2) + (((2*lena(i,j)) - lena(i-2,j) - lena(i+2,j))/4);
         else
-            Green(i-2,j-2) = ((lena(i-1,j) + lena(i+1,j) + lena(i,j-1) + lena(i,j+1))/4) + (((4*lena(i,j)) - lena(i-1,j) - lena(i+2,j) - lena(i,j-2) - lena(i,j+2))/8);
+            Green(i-2,j-2) = ((lena(i-1,j) + lena(i+1,j) + lena(i,j-1) + lena(i,j+1))/4) + (((4*lena(i,j)) - lena(i-2,j) - lena(i+2,j) - lena(i,j-2) - lena(i,j+2))/8);
         end
     end
 end
@@ -63,13 +63,13 @@ end
 for i = 4 : 2 : lena_i - 2 
     for j = 3 : 2 : lena_j - 3 
 	DH = abs(lena(i,j-1) - lena(i,j+1)) + abs((2*lena(i,j)) - lena(i,j-2) - lena(i,j+2));
-	DV = abs(lena(i-1,j) - lena(i+1,j)) + abs((2*lena(i,j)) - lena(i-1,j) - lena(i+2,j));
+	DV = abs(lena(i-1,j) - lena(i+1,j)) + abs((2*lena(i,j)) - lena(i-2,j) - lena(i+2,j));
 	if DH < DV
 		Green(i-2,j-2) = ((lena(i,j-1) + lena(i,j+1))/2) + (((2*lena(i,j)) - lena(i,j-2) - lena(i,j+2))/4);
 	elseif DV < DH
 		Green(i-2,j-2) = ((lena(i-1,j) + lena(i+1,j))/2) + (((2*lena(i,j)) - lena(i-2,j) - lena(i+2,j))/4);
 	else
-		Green(i-2,j-2) = ((lena(i-1,j) + lena(i+1,j) + lena(i,j-1) + lena(i,j+1))/4) + (((4*lena(i,j)) - lena(i-1,j) - lena(i+2,j) - lena(i,j-2) - lena(i,j+2))/8);
+		Green(i-2,j-2) = ((lena(i-1,j) + lena(i+1,j) + lena(i,j-1) + lena(i,j+1))/4) + (((4*lena(i,j)) - lena(i-2,j) - lena(i+2,j) - lena(i,j-2) - lena(i,j+2))/8);
         end
     end
 end
@@ -109,7 +109,7 @@ end
 for i = 4 : 2 : lena_i - 2
     for j = 3 : 2 : lena_j - 3
     	Red(i-1-2,j-2) = ((lena(i-1,j-1) + lena(i-1,j+1))/2) + ((2*Green_mirror(i-1,j) - Green_mirror(i-1,j-1) - Green_mirror(i-1,j+1))/2); %R3 
- 	Red(i-2,j+1-2) = ((lena(i-1,j+1) + lena(i+1,j+1))/2) + ((2*Green_mirror(i+1,j+1) - Green_mirror(i-1,j+1) - Green_mirror(i+1,j+1))/2); %R8
+ 	Red(i-2,j+1-2) = ((lena(i-1,j+1) + lena(i+1,j+1))/2) + ((2*Green_mirror(i,j+1) - Green_mirror(i-1,j+1) - Green_mirror(i+1,j+1))/2); %R8
 	
 	DC = abs(lena(i-1,j-1) - lena(i+1,j+1)) + abs(2*Green_mirror(i,j) - Green_mirror(i-1,j-1) - Green_mirror(i+1,j+1));
 	DK = abs(lena(i-1,j+1) - lena(i+1,j-1)) + abs(2*Green_mirror(i,j) - Green_mirror(i-1,j+1) - Green_mirror(i+1,j-1));
