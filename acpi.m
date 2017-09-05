@@ -163,7 +163,7 @@ for i = 4 : 2 : lena_i - 2
 end
 
 % ---------------------------------------------------------------------
-%     Green matrix mirror fill the edge, for the blue, red required    
+%     Green matrix mirror fill the edge for the blue and red required    
 % ---------------------------------------------------------------------
 
 Green_mirror = [Green(2:-1:1,:); Green; Green(end:-1:end-(2-1), :)];
